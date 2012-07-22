@@ -9,8 +9,9 @@ module BrowserMob
         sm = MultiJson.singleton_methods.map { |e| e.to_sym }
         decode_method = sm.include?(:load) ? :load : :decode
 
+        payload = proxy_port.nil? ? '' : { :port => proxy_port.to_s }
+
         port = MultiJson.send(decode_method,
-          payload = proxy_port.nil? ? '' : { :port => proxy_port.to_s }
           RestClient.post(URI.join(server_url, "proxy").to_s, payload)
         ).fetch('port')
 
